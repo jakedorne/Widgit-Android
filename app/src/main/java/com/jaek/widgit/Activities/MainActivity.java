@@ -48,10 +48,13 @@ public class MainActivity extends AppCompatActivity {
         String uid = authUser.getUid();
 
         DatabaseReference dbUser = FirebaseDatabase.getInstance().getReference("users/"+uid);
+        System.out.println(uid);
 
         dbUser.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("JAKE: ondatachange called");
                 MyApplication.user = dataSnapshot.getValue(User.class);
                 // TODO: POPULATE FRAGMENT / POSSIBLE RECYCLER VIEW WITH USER WIDGETS??
             }
