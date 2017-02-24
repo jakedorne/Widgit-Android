@@ -10,10 +10,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.jaek.widgit.Fragments.CatalogueFragment">
 
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/catalogue_search"></SearchView>
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Weather"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
         android:onClick="todoPressed"
         android:id="@+id/catalogue_button_weather" />
 
@@ -21,6 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Note Keeper"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
         android:onClick="notesPressed"
         android:id="@+id/catalogue_button_notekeeper" />
 
@@ -28,6 +41,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Todo List"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
         android:onClick="weatherPressed"
         android:id="@+id/catalogue_button_todolist" />
 
@@ -35,6 +51,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Timer"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
         android:onClick="stopwatchPressed"
         android:id="@+id/catalogue_button_timer" />
 
@@ -42,6 +61,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Calendar"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
         android:onClick="calendarPressed"
         android:id="@+id/catalogue_button_calendar" />
 

@@ -1,5 +1,6 @@
 package com.jaek.widgit.Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public class User {
     private String firstname;
     private String lastname;
+    private String country;
+    private String city;
     private int currency;
     private String email;
     List<String> widgets;
@@ -18,10 +21,16 @@ public class User {
 
     public User(){}
 
-    public User(String firstname, String lastname, String email) {
+    public User(String firstname, String lastname, String email, String country, String city) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.country = country;
+        this.city = city;
+        this.currency = 600;
+        this.widgets = new ArrayList<String>();
+        this.notes = new HashMap<String, Note>();
+        this.todos = new HashMap<String, Todo>();
     }
 
     public String getFirstname() {
@@ -50,5 +59,41 @@ public class User {
 
     public HashMap<String, Todo> getTodos() {
         return todos;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setCurrency(int currency) {
+        this.currency = currency;
+    }
+
+    public void setWidgets(List<String> widgets) {
+        this.widgets = widgets;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setNotes(HashMap<String, Note> notes) {
+        this.notes = notes;
+    }
+
+    public void setTodos(HashMap<String, Todo> todos) {
+        this.todos = todos;
     }
 }

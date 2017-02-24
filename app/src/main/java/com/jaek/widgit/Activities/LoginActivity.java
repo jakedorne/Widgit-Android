@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,12 +40,18 @@ import java.util.List;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jaek.widgit.Models.User;
+import com.jaek.widgit.MyApplication;
 import com.jaek.widgit.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -107,9 +114,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                System.out.println("ON AUTH STATE CHANGED CALLED FUCK");
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT).show();
+
+                    // TODO: maybe add db listener here instead of main activity
+                    String uid = user.getUid();
+
+                    DatabaseReference dbUser = FirebaseDatabase.getInstance().getReference("users/"+uid);
+
+                    dbUser.addValueEventListener(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            MyApplication.user = dataSnapshot.getValue(User.class);
+                            System.out.println("USER HAS CHANGED");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -133,12 +163,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    public void facebookPressed(View view) {
+
+    }
+
     public void registerPressed(View view) {
         View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.dialog_register, null, false);
         final EditText first = (EditText) v.findViewById(R.id.registration_firstname);
         final EditText last = (EditText) v.findViewById(R.id.registration_lastname);
         final EditText email = (EditText) v.findViewById(R.id.registration_email);
         final EditText pass = (EditText) v.findViewById(R.id.registration_password);
+        final EditText country = (EditText) v.findViewById(R.id.registration_country);
+        final EditText city = (EditText) v.findViewById(R.id.registration_city);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setMessage("Register")
@@ -146,8 +182,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
-
-                        register(first.getText().toString(), last.getText().toString(), email.getText().toString(), pass.getText().toString());
+                        if(first.getText().toString().equals(null) || last.getText().toString().equals(null) || pass.getText().toString().equals(null)) {
+                            Toast.makeText(getApplicationContext(), "Please fill in the required fields", Toast.LENGTH_SHORT).show();
+                        }
+                        register(first.getText().toString(), last.getText().toString(), email.getText().toString(), pass.getText().toString(), country.getText().toString(), city.getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -162,8 +200,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         alert.show();
     }
 
-    private void register(String first, String last, String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password);
+    private void register(String first, String last, String email, String password, String country, String city) {
+        final User user = new User(first, last, email, country, city);
+
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()) {
+                    try {
+                        throw task.getException();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error: "+task.getResult().toString(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    database.child("users/"+auth.getCurrentUser().getUid()).setValue(user);
+                }
+            }
+        });
+
     }
 
     private void populateAutoComplete() {

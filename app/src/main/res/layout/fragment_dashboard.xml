@@ -15,41 +15,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:textSize="24sp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Todo List"
-        android:onClick="todoPressed"
-        />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Note Keeper"
-        android:onClick="notesPressed"
-        />
+        android:textSize="24sp"
+        android:layout_marginBottom="8dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Weather"
-        android:onClick="weatherPressed"
-        />
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
+        android:onClick="weatherButtonPressed"
+        android:id="@+id/dashboard_button_weather" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stopwatch"
-        android:onClick="stopwatchPressed"
-        />
+        android:text="Note Keeper"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/dashboard_button_notekeeper"
+        android:onClick="notesButtonPressed" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Todo List"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
+        android:onClick="todoButtonPressed"
+        android:id="@+id/dashboard_button_todolist" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Timer"
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/dashboard_button_timer"
+        android:onClick="timerButtonPressed" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Calendar"
-        android:onClick="calendarPressed"
-        />
+        android:textColor="@android:color/white"
+        android:background="#222222"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/dashboard_button_calendar"
+        android:onClick="calendarButtonPressed" />
 
 </LinearLayout>

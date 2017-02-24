@@ -1,5 +1,6 @@
 package com.jaek.widgit.Adapters;
 
+import android.os.Debug;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder>{
 
     @Override
     public void onBindViewHolder(TodoViewHolder holder, int position) {
-        final Todo todo = todos.get(position);
+        Todo todo = todos.get(position);
         holder.updateUI(todo);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
